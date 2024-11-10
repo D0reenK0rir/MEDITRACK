@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    width: 350px;
+    padding: 20px;
+    background-color: #e7f1ff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+button {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 15px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+button {
+    background-color: #4a90e2;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+}
+
+button:hover {
+    background-color: #357ab8;
+}
+
+.radio-group {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+.radio-group input[type="radio"] {
+    margin-right: 5px;
+}
+
+.radio-group label {
+    font-weight: normal;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Register</h2>
+        
+        <!-- Role Selection -->
+        <form method="POST" action="registertrial.php">
+            <!-- Role selection using radio buttons -->
+            <label>Select your role:</label><br>
+            <input type="radio" name="role" value="patient"> Patient<br>
+            <input type="radio" name="role" value="doctor"> Doctor<br><br>
+        
+            <!-- Other input fields -->
+            <label for="first_name">First Name:</label>
+            <input type="text" id="first_name" name="first_name" required><br><br>
+        
+            <label for="last_name">Last Name:</label>
+            <input type="text" id="last_name" name="last_name" required><br><br>
+        
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required><br><br>
+        
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required><br><br>
+        
+            <!-- Additional field for doctor -->
+            <label for="license_number">License Number (for Doctors only):</label>
+            <input type="text" id="license_number" name="license_number"><br><br>
+        
+            <input type="submit" value="Register">
+        </form>
+        
+    </div>
+
+    <script>
+        // JavaScript to handle role selection and form visibility
+        const roleForm = document.getElementById('roleForm');
+        const registerForm = document.getElementById('registerForm');
+        const doctorField = document.getElementById('doctor-field');
+
+        roleForm.addEventListener('change', function() {
+            const selectedRole = document.querySelector('input[name="role"]:checked').value;
+
+            // Display the registration form
+            registerForm.style.display = 'block';
+
+            // Show or hide doctor-specific fields
+            if (selectedRole === 'doctor') {
+                doctorField.style.display = 'block';
+                doctorField.querySelector('input').setAttribute('required', 'required');
+            } else {
+                doctorField.style.display = 'none';
+                doctorField.querySelector('input').removeAttribute('required');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,11 +1,15 @@
 <?php
-$dbservername = "localhost";
-$dbusername = "root";
-$dbpassword = "";
-$dbname = "meditrack";
+// db_connect.php
+$host = 'localhost';    // Database host
+$dbname = 'meditrack'; // Database name
+$username = 'root';     // Database username
+$password = '';         // Database password
 
-$conn = mysqli_connect($dbservername, $dbusername, $dbpassword, $dbname);
-
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Database connection failed: " . $e->getMessage());
 }
+?>
+
