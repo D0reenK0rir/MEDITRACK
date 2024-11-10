@@ -139,3 +139,148 @@ button:hover {
     </script>
 </body>
 </html>
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            width: 350px;
+            padding: 20px;
+            background-color: #e7f1ff;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        button {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 15px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4a90e2;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+        }
+
+        button:hover {
+            background-color: #357ab8;
+        }
+
+        .radio-group {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+        }
+
+        .radio-group input[type="radio"] {
+            margin-right: 5px;
+        }
+
+        .radio-group label {
+            font-weight: normal;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Register</h2>
+
+        <!-- Registration Form -->
+        <form id="registerForm" action="registertrial.php" method="post">
+            <label>Please select your role:</label>
+            <div class="radio-group">
+                <input type="radio" id="patient" name="role" value="patient" required>
+                <label for="patient">Patient</label>
+
+                <input type="radio" id="doctor" name="role" value="doctor" required>
+                <label for="doctor">Doctor</label>
+            </div>
+
+            <!-- Common fields for both roles -->
+            <div id="common-fields">
+                <label for="firstName">First Name:</label>
+                <input type="text" id="firstName" name="first_name" required>
+
+                <label for="lastName">Last Name:</label>
+                <input type="text" id="lastName" name="last_name" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <!-- Doctor-Specific Field -->
+            <div id="doctor-field" style="display: none;">
+                <label for="licenseNumber">License Number:</label>
+                <input type="text" id="licenseNumber" name="license_number">
+            </div>
+
+            <button type="submit">Register</button>
+            <p>Already have an account? <a href="login.html">Login here</a></p>
+        </form>
+    </div>
+
+    <script>
+        
+    // Ensure DOM is fully loaded before executing the script
+    document.addEventListener('DOMContentLoaded', function () {
+        const roleRadios = document.getElementsByName('role');
+        const doctorField = document.getElementById('doctor-field');
+
+        roleRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                // Show license number field only if Doctor is selected
+                if (this.value === 'doctor') {
+                    doctorField.style.display = 'block';
+                    doctorField.querySelector('input').setAttribute('required', 'required');
+                } else {
+                    doctorField.style.display = 'none';
+                    doctorField.querySelector('input').removeAttribute('required');
+                }
+            });
+        });
+    });
+
+
+    </script>
+</body>
+</html>
+

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 31, 2024 at 10:26 PM
+-- Generation Time: Nov 10, 2024 at 09:26 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -92,29 +92,11 @@ CREATE TABLE `notifs` (
 --
 
 CREATE TABLE `patient` (
-  `id` int(255) NOT NULL,
-  `first name` varchar(255) NOT NULL,
-  `last name` varchar(255) NOT NULL,
-  `username` varchar(255) NOT NULL,
+  `patient_id` int(255) NOT NULL,
+  `first_name` varchar(255) NOT NULL,
+  `last_name` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `phone no` int(255) NOT NULL,
-  `dob` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pharmacies`
---
-
-CREATE TABLE `pharmacies` (
-  `id` int(255) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `address` varchar(255) NOT NULL,
-  `phone no` int(255) NOT NULL,
-  `location` varchar(255) NOT NULL,
-  `hrsofoperation` varchar(255) NOT NULL
+  `email` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -130,6 +112,22 @@ CREATE TABLE `reminders` (
   `remtime` time(6) NOT NULL,
   `remfrequency` int(255) NOT NULL,
   `status` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `user_id` int(11) NOT NULL,
+  `first_name` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `role` enum('patient','doctor') NOT NULL,
+  `license_number` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -168,13 +166,7 @@ ALTER TABLE `notifs`
 -- Indexes for table `patient`
 --
 ALTER TABLE `patient`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `pharmacies`
---
-ALTER TABLE `pharmacies`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`patient_id`);
 
 --
 -- Indexes for table `reminders`
@@ -183,6 +175,12 @@ ALTER TABLE `reminders`
   ADD PRIMARY KEY (`id`),
   ADD KEY `patient id` (`patient id`),
   ADD KEY `medications id` (`medications id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`user_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -216,19 +214,19 @@ ALTER TABLE `notifs`
 -- AUTO_INCREMENT for table `patient`
 --
 ALTER TABLE `patient`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `pharmacies`
---
-ALTER TABLE `pharmacies`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
+  MODIFY `patient_id` int(255) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `reminders`
 --
 ALTER TABLE `reminders`
   MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
@@ -238,26 +236,26 @@ ALTER TABLE `reminders`
 -- Constraints for table `appointment`
 --
 ALTER TABLE `appointment`
-  ADD CONSTRAINT `appointment_ibfk_1` FOREIGN KEY (`patient id`) REFERENCES `patient` (`id`),
+  ADD CONSTRAINT `appointment_ibfk_1` FOREIGN KEY (`patient id`) REFERENCES `patient` (`patient_id`),
   ADD CONSTRAINT `appointment_ibfk_2` FOREIGN KEY (`clinic id`) REFERENCES `clinic` (`id`);
 
 --
 -- Constraints for table `medications`
 --
 ALTER TABLE `medications`
-  ADD CONSTRAINT `medications_ibfk_1` FOREIGN KEY (`patient id`) REFERENCES `patient` (`id`);
+  ADD CONSTRAINT `medications_ibfk_1` FOREIGN KEY (`patient id`) REFERENCES `patient` (`patient_id`);
 
 --
 -- Constraints for table `notifs`
 --
 ALTER TABLE `notifs`
-  ADD CONSTRAINT `notifs_ibfk_1` FOREIGN KEY (`patient id`) REFERENCES `patient` (`id`);
+  ADD CONSTRAINT `notifs_ibfk_1` FOREIGN KEY (`patient id`) REFERENCES `patient` (`patient_id`);
 
 --
 -- Constraints for table `reminders`
 --
 ALTER TABLE `reminders`
-  ADD CONSTRAINT `reminders_ibfk_1` FOREIGN KEY (`patient id`) REFERENCES `patient` (`id`),
+  ADD CONSTRAINT `reminders_ibfk_1` FOREIGN KEY (`patient id`) REFERENCES `patient` (`patient_id`),
   ADD CONSTRAINT `reminders_ibfk_2` FOREIGN KEY (`medications id`) REFERENCES `medications` (`id`);
 COMMIT;
 
