@@ -74,23 +74,9 @@ button:hover {
 <body>
     <div class="container">
         <h2>Login</h2>
-
-        <!-- Role Selection -->
-        <form id="roleForm">
-            <label>Please select your role:</label>
-            <div class="radio-group">
-                <input type="radio" id="patient" name="role" value="patient">
-                <label for="patient">Patient</label>
-
-                <input type="radio" id="doctor" name="role" value="doctor">
-                <label for="doctor">Doctor</label>
-            </div>
-        </form>
-
-        <!-- Login Form -->
-        <form id="loginForm" action="login1.php" method="post" style="display: none;">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
+        <form id="loginForm" action="logintrial.php" method="post">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
 
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
@@ -99,44 +85,5 @@ button:hover {
             <p>Don’t have an account? <a href="register.html">Register here</a></p>
         </form>
     </div>
-
-    <script>
-        // JavaScript to handle role selection and form visibility
-        const roleForm = document.getElementById('roleForm');
-        const loginForm = document.getElementById('loginForm');
-
-        roleForm.addEventListener('change', function() {
-            // Display the login form when role is selected
-            loginForm.style.display = 'block';
-        });
-
-        // Redirect user based on their role after login
-        loginForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const selectedRole = document.querySelector('input[name="role"]:checked');
-
-            if (!selectedRole) {
-                alert("Please select a role before logging in.");
-                return;
-            }
-
-            const role = selectedRole.value;
-            const formData = new FormData(loginForm);
-
-            fetch(loginForm.action, {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    window.location.href = role === 'patient' ? 'patientindex.html' : 'clinicindex.html';
-                } else {
-                    alert(data.message || 'Login failed');
-                }
-            })
-            .catch(error => console.error('Error:', error));
-        });
-    </script>
 </body>
 </html>

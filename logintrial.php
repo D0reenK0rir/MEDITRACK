@@ -1,5 +1,5 @@
 <?php
-include 'db.php'; // Include database connection file
+include 'db.php';
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -14,19 +14,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // Check if user exists and if password is correct
         if ($user && password_verify($password, $user['password'])) {
-            // Set session variables
+            // Set session variables for user authentication and personalization
             $_SESSION['user_id'] = $user['user_id'];
             $_SESSION['role'] = $user['role'];
+            $_SESSION['first_name'] = $user['first_name']; // Store first name
+            $_SESSION['last_name'] = $user['last_name'];   // Store last name
 
             // Redirect based on the user's role
             if ($user['role'] === 'patient') {
-                header("Location: patientindex.html"); // Redirect to patient dashboard
+                header("Location: patientdashboard.php");
             } elseif ($user['role'] === 'doctor') {
-                header("Location: clinicindex.html"); // Redirect to doctor dashboard
+                header("Location: doctordashboard.php");
             }
-            exit; // Ensure no further code is executed after redirection
+            exit; // Ensure no further code runs after redirection
         } else {
-            // Display an error if the email or password is incorrect
             echo "Invalid email or password.";
         }
     } catch (PDOException $e) {

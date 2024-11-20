@@ -1,28 +1,13 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Health Tips</title>
+    <title>My Appointments</title>
     <style>
-        .tip-item {
-    background-color: #f4f4f4;
-    padding: 15px;
-    margin-bottom: 15px;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.tip-item h3 {
-    margin-top: 0;
-    color: #2a6db0;
-}
-
-.tip-item p {
-    margin-bottom: 0;
-}
-body {
+        body {
         font-family: 'Arial', sans-serif;
         margin: 0;
         padding: 0;
@@ -115,42 +100,87 @@ body {
         bottom: 0;
         width: 100%;
     }
+    #appointment-form {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #e7f1ff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#appointment-form label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+#appointment-form input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.hidden {
+    display: none;
+}
+
+#confirmation-message {
+    margin-top: 10px;
+    background-color: #d4edda;
+    color: #155724;
+    padding: 10px;
+    border-radius: 5px;
+}
+
     </style>
 </head>
 <body>
     <nav class="navbar">
         <div class="logo">Meditrack Patient Dashboard</div>
+        
         <ul class="nav-links">
-            <li><a href="patientindex.html">Home</a></li>
-            <li><a href="medications.html">Medications</a></li>
-            <li><a href="appointments.html">My Appointments</a></li>
-            <li><a href="messages.html">Messages</a></li>
-            <li><a href="health-tips.html" class="active">Health Tips</a></li> <!-- Active class added -->
+            <li><a href="patientdashboard.php">Home</a></li>
+            <li><a href="patientmedications.html">Medications</a></li>
+            <li><a href="patientappointments.html" class="active">My Appointments</a></li> <!-- Active class added -->
+            <li><a href="patientmessages.html">Messages</a></li>
+            <li><a href="patienthealthtips.html">Health Tips</a></li>
         </ul>
-        <div class="user-profile">Hello, John Doe</div>
+        
     </nav>
 
-    <section id="health-tips" class="section">
-        <h2>Health Tips</h2>
-        <div class="tip-item">
-            <h3>Tip 1: Stay Hydrated</h3>
-            <p>Drinking plenty of water is essential for maintaining good health. Aim to drink at least 8 glasses of water daily.</p>
+    <section id="appointments" class="section">
+        <h2>Upcoming Appointments</h2>
+        <div class="appointment-list">
+            <div class="appointment-item">
+                <p><strong>Appointment:</strong> Dr. Lee <br><strong>Date:</strong> October 15, 2024 <br><strong>Time:</strong> 2:00 PM</p>
+            </div>
+            <!-- More appointment items as needed -->
         </div>
-        <div class="tip-item">
-            <h3>Tip 2: Regular Exercise</h3>
-            <p>Engage in at least 30 minutes of moderate exercise five times a week to improve cardiovascular health and overall well-being.</p>
+
+        <h3>Set a New Appointment</h3>
+        <form id="appointment-form">
+            <label for="doctor-name">Doctor's Name:</label>
+            <input type="text" id="doctor-name" name="doctor-name" required><br>
+
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required><br>
+
+            <label for="time">Time:</label>
+            <input type="time" id="time" name="time" required><br>
+
+            <button type="submit" class="action-button">Book Appointment</button>
+        </form>
+
+        <div id="confirmation-message" class="hidden">
+            <p>Appointment booked successfully!</p>
         </div>
-        <div class="tip-item">
-            <h3>Tip 3: Balanced Diet</h3>
-            <p>Ensure your diet includes a variety of fruits, vegetables, whole grains, and lean proteins to maintain proper nutrition.</p>
-        </div>
-        <!-- More health tips as needed -->
     </section>
 
     <footer>
         <p>&copy; 2024 Meditrack. All Rights Reserved.</p>
     </footer>
 
-    <script src="health-tips.js"></script>
+    <script src="appointments.js"></script>
 </body>
 </html>

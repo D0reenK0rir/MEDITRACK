@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 10, 2024 at 09:26 AM
+-- Generation Time: Nov 20, 2024 at 12:25 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -61,13 +61,14 @@ CREATE TABLE `clinic` (
 --
 
 CREATE TABLE `medications` (
-  `id` int(255) NOT NULL,
-  `patient id` int(255) NOT NULL,
-  `med name` varchar(255) NOT NULL,
-  `dosage` varchar(255) NOT NULL,
-  `frequency` varchar(255) NOT NULL,
-  `start date` date NOT NULL,
-  `end date` date NOT NULL
+  `medication_id` int(255) NOT NULL,
+  `patient_id` int(255) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `dosage` varchar(50) NOT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
+  `reminder_time` time NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -131,6 +132,17 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`user_id`, `first_name`, `last_name`, `email`, `password`, `role`, `license_number`) VALUES
+(1, 'Annabel', 'Blessing', 'annabel@gmail.com', '$2y$10$5WOMocmFdKOQFwe6IVRSFO2M3FyUxTbjMa94/L8Ae9ozie0bXz7xG', 'patient', ''),
+(3, 'Doreen', 'Korir', 'resiatodoreen@gmail.com', '$2y$10$VKMjRpbJLImlkWHrpFzjIu5sWRZ8xnvC/SY5/CvBucTaZ0D2L1IJa', 'patient', ''),
+(4, 'Lydiah', 'Manyeki', 'lydiah@gmail.com', '$2y$10$pJt8Wy6U1/HGQOaa/esJTOVMR/pCs4VtCq/oneeWK2V2jGrcEs9Q2', 'doctor', '0727545814'),
+(5, 'Joy', 'Chebet', 'joy@gmail.com', '$2y$10$LjPiYSgHMJjc5op8B6BzYux63V4cnqiS/nXk1DlORUF4vcXCVbcJG', 'patient', ''),
+(6, 'Maureen', 'Jepchumba', 'mnandito@gmail.com', '$2y$10$3YTAU8EKgAp0A3W03dE6ieR/uibBs6ODLVixqzOUkcxsBO6HGmDQu', 'doctor', '0713641969');
+
+--
 -- Indexes for dumped tables
 --
 
@@ -152,8 +164,8 @@ ALTER TABLE `clinic`
 -- Indexes for table `medications`
 --
 ALTER TABLE `medications`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `patient id` (`patient id`);
+  ADD PRIMARY KEY (`medication_id`),
+  ADD KEY `medications_ibfk_1` (`patient_id`);
 
 --
 -- Indexes for table `notifs`
@@ -202,7 +214,7 @@ ALTER TABLE `clinic`
 -- AUTO_INCREMENT for table `medications`
 --
 ALTER TABLE `medications`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
+  MODIFY `medication_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `notifs`
@@ -226,7 +238,7 @@ ALTER TABLE `reminders`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables
@@ -243,7 +255,7 @@ ALTER TABLE `appointment`
 -- Constraints for table `medications`
 --
 ALTER TABLE `medications`
-  ADD CONSTRAINT `medications_ibfk_1` FOREIGN KEY (`patient id`) REFERENCES `patient` (`patient_id`);
+  ADD CONSTRAINT `medications_ibfk_1` FOREIGN KEY (`patient_id`) REFERENCES `users` (`user_id`);
 
 --
 -- Constraints for table `notifs`
@@ -256,7 +268,7 @@ ALTER TABLE `notifs`
 --
 ALTER TABLE `reminders`
   ADD CONSTRAINT `reminders_ibfk_1` FOREIGN KEY (`patient id`) REFERENCES `patient` (`patient_id`),
-  ADD CONSTRAINT `reminders_ibfk_2` FOREIGN KEY (`medications id`) REFERENCES `medications` (`id`);
+  ADD CONSTRAINT `reminders_ibfk_2` FOREIGN KEY (`medications id`) REFERENCES `medications` (`medication_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

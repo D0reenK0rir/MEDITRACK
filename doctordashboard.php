@@ -1,3 +1,17 @@
+<?php
+session_start();
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'doctor') {
+    header("Location: login.html"); // Redirect to login if not authenticated as doctor
+    exit;
+}
+
+// Retrieve the user's name from the session
+$firstName = $_SESSION['first_name'];
+$lastName = $_SESSION['last_name'];
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -103,13 +117,14 @@
 <body>
     <nav class="navbar">
         <div class="logo">Meditrack Doctor Dashboard</div>
+        <p>Hello Dr.  <?php echo htmlspecialchars($firstName . ' ' . $lastName); ?>!</p>
         <ul class="nav-links">
             <li><a href="clinic-appointments.html">Appointments</a></li>
             <li><a href="patient-records.html">Patient Records</a></li>
             <li><a href="clinic-messages.html">Messages</a></li>
             
         </ul>
-        <div class="user-profile">Welcome, Dr. Smith</div>
+        
     </nav>
 
     <section id="dashboard">
