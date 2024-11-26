@@ -1,36 +1,70 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('message-form');
-    const confirmationMessage = document.getElementById('confirmation-message');
+document.addEventListener('DOMContentLoaded', function () {
+    const messageForm = document.getElementById('message-form');
+    const messageContainer = document.querySelector('.message-list');
+    const conversationPartnerId = document.getElementById('receiver_id').value;
 
-    form.addEventListener('submit', (event) => {
+    // Function to load messages
+    async function loadMessages() {
+        const response = await fetch(`get_messages.php?conversation_partner_id=${conversationPartnerId}`);
+        const messages = await response.json();
+
+        messageContainer.innerHTML = ''; // Clear previous messages
+        
+        // Display messages
+        messages.forEach(message => {
+            const messageItem = document.createElement('div');
+            messageItem.classList.add('message-item');
+            messageItem.innerHTML = `
+                <p><strong>From:</strong> ${message.sender_first_name} ${message.sender_last_name}</p>
+                <p>${message.message_content}</p>
+                <p class="timestamp">${message.sent_at}</p>
+            `;
+            messageContainer.appendChild(messageItem);
+        });
+    }
+
+    // Send message form submission
+    messageForm.addEventListener('submit', async function (event) {
         event.preventDefault();
 
-        // Get form values
-        const recipientName = document.getElementById('recipient-name').value;
-        const subject = document.getElementById('subject').value;
-        const messageContent = document.getElementById('message').value;
+        const formData = new FormData(messageForm);
+        const response = await fetch('send_message.php', {
+            method: 'POST',
+            body: formData
+        });
 
-        // Create a new message item
-        const messageList = document.querySelector('.message-list');
-        const newMessage = document.createElement('div');
-        newMessage.classList.add('message-item');
-        newMessage.innerHTML = `
-            <p><strong>From:</strong> You <br><strong>Subject:</strong> ${subject} <br><strong>Date:</strong> ${new Date().toLocaleDateString()}</p>
-            <p>${messageContent}</p>
-        `;
-
-        // Append the new message to the list
-        messageList.appendChild(newMessage);
-
-        // Show confirmation message
-        confirmationMessage.classList.remove('hidden');
-
-        // Clear form fields
-        form.reset();
-
-        // Hide the confirmation message after 3 seconds
-        setTimeout(() => {
-            confirmationMessage.classList.add('hidden');
-        }, 3000);
+        if (response.ok) {
+            loadMessages(); // Reload messages to show the new message
+            messageForm.reset(); // Clear the form
+        }
     });
+
+    // Initial load of messages
+    loadMessages();
+});
+document.addEventListener('DOMContentLoaded', function() {
+    const unreadCountElement = document.createElement('div');
+    unreadCountElement.id = 'unread-count';
+    unreadCountElement.style.color = 'red';
+    unreadCountElement.style.fontWeight = 'bold';
+    document.body.appendChild(unreadCountElement); // Add notification to the body, or place it in a desired location
+
+    // Function to check for unread messages
+    async function checkUnreadMessages() {
+        const response = await fetch('check_unread_messages.php');
+        const data = await response.json();
+
+        if (data.status === 'success') {
+            const unreadCount = data.unread_count;
+            if (unreadCount > 0) {
+                unreadCountElement.textContent = `You have ${unreadCount} new message(s)`;
+            } else {
+                unreadCountElement.textContent = '';
+            }
+        }
+    }
+
+    // Initial check and set interval to check every 10 seconds
+    checkUnreadMessages();
+    setInterval(checkUnreadMessages, 10000); // Check every 10 seconds
 });

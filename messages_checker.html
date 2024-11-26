@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .message-list {
+            margin-bottom: 30px;
+        }
+
+        .message-item {
+            background-color: #f9f9f9;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .message-item .sender {
+            font-weight: bold;
+            color: #4a90e2;
+        }
+
+        .message-item .timestamp {
+            font-size: 0.9em;
+            color: #999;
+        }
+
+        .message-item.unread {
+            font-weight: bold;
+        }
+
+        .message-item .content {
+            margin-top: 10px;
+        }
+
+        .section-header {
+            margin-top: 30px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border-bottom: 2px solid #4a90e2;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>My Messages</h2>
+
+        <div class="section-header">Received Messages</div>
+        <div id="received-messages" class="message-list">
+            <!-- Received messages will be loaded here -->
+        </div>
+
+        <div class="section-header">Sent Messages</div>
+        <div id="sent-messages" class="message-list">
+            <!-- Sent messages will be loaded here -->
+        </div>
+    </div>
+
+    <script>
+        // Function to load received messages
+        async function loadMessages() {
+            // Fetch received messages from the backend
+            const receivedResponse = await fetch('get_messages.php?type=received');
+            const receivedMessages = await receivedResponse.json();
+
+            // Fetch sent messages from the backend
+            const sentResponse = await fetch('get_messages.php?type=sent');
+            const sentMessages = await sentResponse.json();
+
+            // Clear previous content
+            document.getElementById('received-messages').innerHTML = '';
+            document.getElementById('sent-messages').innerHTML = '';
+
+            // Render received messages
+            receivedMessages.forEach(message => {
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message-item');
+                if (message.read_status === 0) {
+                    messageElement.classList.add('unread');
+                }
+                messageElement.innerHTML = `
+                    <div class="sender">From: ${message.sender_first_name} ${message.sender_last_name}</div>
+                    <div class="timestamp">${message.sent_at}</div>
+                    <div class="content">${message.message_content}</div>
+                `;
+                document.getElementById('received-messages').appendChild(messageElement);
+            });
+
+            // Render sent messages
+            sentMessages.forEach(message => {
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message-item');
+                messageElement.innerHTML = `
+                    <div class="sender">To: ${message.receiver_first_name} ${message.receiver_last_name}</div>
+                    <div class="timestamp">${message.sent_at}</div>
+                    <div class="content">${message.message_content}</div>
+                `;
+                document.getElementById('sent-messages').appendChild(messageElement);
+            });
+        }
+
+        // Load messages when the page is loaded
+        window.onload = loadMessages;
+    </script>
+
+</body>
+</html>

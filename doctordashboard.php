@@ -121,8 +121,8 @@ $lastName = $_SESSION['last_name'];
         <ul class="nav-links">
             <li><a href="clinic-appointments.html">Appointments</a></li>
             <li><a href="patient-records.html">Patient Records</a></li>
-            <li><a href="clinic-messages.html">Messages</a></li>
-            
+            <li><a href="clinic-messages.php">Send Messages</a></li>
+            <li><a href="messages_checker.html">Messages</a></li>
         </ul>
         
     </nav>
