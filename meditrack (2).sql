@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 20, 2024 at 12:25 AM
+-- Generation Time: Nov 20, 2024 at 09:41 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -28,12 +28,13 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `appointment` (
-  `id` int(255) NOT NULL,
-  `patient id` int(255) NOT NULL,
-  `clinic id` int(255) NOT NULL,
-  `app date` date NOT NULL,
-  `app time` time(6) NOT NULL,
-  `status` text NOT NULL
+  `appointment_id` int(255) NOT NULL,
+  `patient_id` int(255) NOT NULL,
+  `doctor_id` int(255) NOT NULL,
+  `appointment_date` datetime NOT NULL,
+  `status` enum('scheduled','completed','canceled') NOT NULL,
+  `notes` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -70,6 +71,14 @@ CREATE TABLE `medications` (
   `reminder_time` time NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `medications`
+--
+
+INSERT INTO `medications` (`medication_id`, `patient_id`, `name`, `dosage`, `start_date`, `end_date`, `reminder_time`, `created_at`) VALUES
+(5, 5, 'ibuprofen', 'once', '2024-11-20', '2024-11-22', '11:30:00', '2024-11-19 23:25:47'),
+(7, 7, 'Paracetamol', '3', '2024-11-21', '2024-11-22', '12:30:00', '2024-11-19 23:54:27');
 
 -- --------------------------------------------------------
 
@@ -137,10 +146,10 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`user_id`, `first_name`, `last_name`, `email`, `password`, `role`, `license_number`) VALUES
 (1, 'Annabel', 'Blessing', 'annabel@gmail.com', '$2y$10$5WOMocmFdKOQFwe6IVRSFO2M3FyUxTbjMa94/L8Ae9ozie0bXz7xG', 'patient', ''),
-(3, 'Doreen', 'Korir', 'resiatodoreen@gmail.com', '$2y$10$VKMjRpbJLImlkWHrpFzjIu5sWRZ8xnvC/SY5/CvBucTaZ0D2L1IJa', 'patient', ''),
 (4, 'Lydiah', 'Manyeki', 'lydiah@gmail.com', '$2y$10$pJt8Wy6U1/HGQOaa/esJTOVMR/pCs4VtCq/oneeWK2V2jGrcEs9Q2', 'doctor', '0727545814'),
 (5, 'Joy', 'Chebet', 'joy@gmail.com', '$2y$10$LjPiYSgHMJjc5op8B6BzYux63V4cnqiS/nXk1DlORUF4vcXCVbcJG', 'patient', ''),
-(6, 'Maureen', 'Jepchumba', 'mnandito@gmail.com', '$2y$10$3YTAU8EKgAp0A3W03dE6ieR/uibBs6ODLVixqzOUkcxsBO6HGmDQu', 'doctor', '0713641969');
+(6, 'Maureen', 'Jepchumba', 'mnandito@gmail.com', '$2y$10$3YTAU8EKgAp0A3W03dE6ieR/uibBs6ODLVixqzOUkcxsBO6HGmDQu', 'doctor', '0713641969'),
+(7, 'Doreen', 'Korir', 'resiatodoreen@gmail.com', '$2y$10$yVrr9WtGubqIKu.WawMH/u/LIaHI/WeH2tBF4Sv1lwy.hpqQtWsKW', 'patient', '');
 
 --
 -- Indexes for dumped tables
@@ -150,9 +159,9 @@ INSERT INTO `users` (`user_id`, `first_name`, `last_name`, `email`, `password`, 
 -- Indexes for table `appointment`
 --
 ALTER TABLE `appointment`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `patient id` (`patient id`),
-  ADD KEY `clinic id` (`clinic id`);
+  ADD PRIMARY KEY (`appointment_id`),
+  ADD KEY `doctor_id` (`doctor_id`),
+  ADD KEY `appointment_ibfk_2` (`patient_id`);
 
 --
 -- Indexes for table `clinic`
@@ -202,7 +211,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `appointment`
 --
 ALTER TABLE `appointment`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
+  MODIFY `appointment_id` int(255) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `clinic`
@@ -214,7 +223,7 @@ ALTER TABLE `clinic`
 -- AUTO_INCREMENT for table `medications`
 --
 ALTER TABLE `medications`
-  MODIFY `medication_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `medication_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `notifs`
@@ -238,7 +247,7 @@ ALTER TABLE `reminders`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables
@@ -248,8 +257,8 @@ ALTER TABLE `users`
 -- Constraints for table `appointment`
 --
 ALTER TABLE `appointment`
-  ADD CONSTRAINT `appointment_ibfk_1` FOREIGN KEY (`patient id`) REFERENCES `patient` (`patient_id`),
-  ADD CONSTRAINT `appointment_ibfk_2` FOREIGN KEY (`clinic id`) REFERENCES `clinic` (`id`);
+  ADD CONSTRAINT `appointment_ibfk_1` FOREIGN KEY (`doctor_id`) REFERENCES `users` (`user_id`),
+  ADD CONSTRAINT `appointment_ibfk_2` FOREIGN KEY (`patient_id`) REFERENCES `users` (`user_id`);
 
 --
 -- Constraints for table `medications`

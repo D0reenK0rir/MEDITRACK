@@ -190,3 +190,54 @@
     <script src="clinic-messages.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Respond to Appointments</title>
+</head>
+<body>
+    <h2>Respond to Appointments</h2>
+    <div id="appointments">
+        <!-- Appointments will be dynamically loaded here -->
+    </div>
+
+    <script>
+        // Example: Fetch appointments dynamically
+        fetch('get_appointments.php')
+            .then(response => response.json())
+            .then(data => {
+                const appointmentsDiv = document.getElementById('appointments');
+                data.forEach(appointment => {
+                    const div = document.createElement('div');
+                    div.innerHTML = `
+                        <p>Patient: ${appointment.patient_name}</p>
+                        <p>Appointment Date: ${appointment.appointment_date}</p>
+                        <form action="respond_to_appointment.php" method="post">
+                            <input type="hidden" name="appointment_id" value="${appointment.appointment_id}">
+                            <label for="status_${appointment.appointment_id}">Status:</label>
+                            <select name="status" id="status_${appointment.appointment_id}">
+                                <option value="scheduled">Scheduled</option>
+                                <option value="canceled">Canceled</option>
+                                <option value="completed">Completed</option>
+                            </select>
+                            <button type="submit">Update Status</button>
+                        </form>
+                    `;
+                    appointmentsDiv.appendChild(div);
+                });
+            })
+            .catch(error => console.error('Error fetching appointments:', error));
+    </script>
+</body>
+</html>
