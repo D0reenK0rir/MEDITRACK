@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medication Reminders</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .medication-list {
+            margin-bottom: 30px;
+        }
+
+        .medication-item {
+            background-color: #f9f9f9;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .medication-item .info {
+            font-weight: bold;
+            color: #4a90e2;
+        }
+
+        .medication-item .timestamp {
+            font-size: 0.9em;
+            color: #999;
+        }
+
+        .medication-item .notes {
+            margin-top: 10px;
+        }
+        .navbar {
+        background-color: #4a90e2;
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: #fff;
+    }
+    
+    .logo {
+        font-size: 24px;
+        font-weight: bold;
+    }
+    
+    .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 20px;
+    }
+    
+    .nav-links li {
+        display: inline;
+    }
+    
+    .nav-links a {
+        color: #fff;
+        text-decoration: none;
+    }
+    
+    .user-profile {
+        font-size: 16px;
+    }
+    
+    .dashboard-summary {
+        padding: 20px;
+        background-color: #fff;
+        margin: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .summary-cards {
+        display: flex;
+        gap: 20px;
+        justify-content: space-around;
+    }
+    
+    .card {
+        background-color: #e7f1ff;
+        padding: 15px;
+        border-radius: 8px;
+        text-align: center;
+        width: 150px;
+    }
+    footer {
+        text-align: center;
+        padding: 1px;
+        background-color: #4a90e2;
+        color: #fff;
+        position: relative;
+        bottom: 0;
+        width: 100%;
+    }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">Meditrack Patient Dashboard</div>
+        <ul class="nav-links">
+            <li><a href="patientdashboard.php">Home</a></li>
+            <li><a href="patientappointments.php">Appointments</a></li>
+            <li><a href="patientappointment_checker.html">My Appointments</a></li>
+            <li><a href="patientmedications.html">Medications</a></li>
+            <li><a href="patientmessages.php">Send Messages</a></li>
+            <li><a href="patientmessages-checker.html">Messages</a></li>
+            <li><a href="patienthealthtips.html">Health Tips</a></li>
+        </ul>
+        
+    </nav>
+    <div class="container">
+        <h2>Your Medication Reminders</h2>
+        <div id="medications" class="medication-list">
+            <!-- Medication reminders will be loaded here -->
+        </div>
+    </div>
+
+    <script>
+        async function loadMedications() {
+            try {
+                const response = await fetch('get_medication_reminders.php');
+                const data = await response.json();
+
+                const medicationsContainer = document.getElementById('medications');
+                medicationsContainer.innerHTML = ''; // Clear previous content
+
+                // Check if no data was returned or if there's an error
+                if (data.status === 'error' || data.length === 0) {
+                    medicationsContainer.innerHTML = '<p>No medication reminders set.</p>';
+                    return;
+                }
+
+                // Loop through the data and display each medication reminder
+                data.forEach(medication => {
+                    const item = document.createElement('div');
+                    item.classList.add('medication-item');
+                    item.innerHTML = `
+                        <div class="info">Medication: ${medication.name}</div>
+                        <div>Dosage: ${medication.dosage}</div>
+                        <div>Start Date: ${medication.start_date}</div>
+                        <div>End Date: ${medication.end_date}</div>
+                        <div>Reminder Time: ${medication.reminder_time}</div>
+                    `;
+                    medicationsContainer.appendChild(item);
+                });
+            } catch (error) {
+                console.error('Error fetching medication reminders:', error);
+            }
+        }
+
+        // Call the function when the page loads
+        window.onload = loadMedications;
+    </script>
+<footer>
+    <p>&copy; 2024 Meditrack. All Rights Reserved.</p>
+</footer>
+</body>
+</html>

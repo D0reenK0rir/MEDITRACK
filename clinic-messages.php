@@ -135,8 +135,9 @@
         <div class="logo">Doctor Dashboard</div>
         <ul class="nav-links">
             <li><a href="doctordashboard.php">Home</a></li>
-            <li><a href="clinic-appointments.html">Appointments</a></li>
-            <li><a href="patient-records.html">Patient Records</a></li>
+            <li><a href="doctorappointments.php">Appointments</a></li>
+            <li><a href="doctorappointment_checker.html">My Appointments</a></li>
+            
             <li><a href="messages_checker.html">Messages</a></li>
         </ul>
         

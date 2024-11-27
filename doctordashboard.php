@@ -119,10 +119,12 @@ $lastName = $_SESSION['last_name'];
         <div class="logo">Meditrack Doctor Dashboard</div>
         <p>Hello Dr.  <?php echo htmlspecialchars($firstName . ' ' . $lastName); ?>!</p>
         <ul class="nav-links">
-            <li><a href="clinic-appointments.html">Appointments</a></li>
-            <li><a href="patient-records.html">Patient Records</a></li>
+            <li><a href="doctorappointments.php">Appointments</a></li>
+            <li><a href="doctorappointment_checker.html">My Appointments</a></li>
+            
             <li><a href="clinic-messages.php">Send Messages</a></li>
             <li><a href="messages_checker.html">Messages</a></li>
+            
         </ul>
         
     </nav>

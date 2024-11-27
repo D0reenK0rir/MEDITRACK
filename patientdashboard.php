@@ -115,14 +115,17 @@ $lastName = $_SESSION['last_name'];
 </head>
 <body>
     <nav class="navbar">
-        <div class="logo">Meditrack Patient Dashboard</div>
+        <div class="logo">Patient Dashboard</div>
         <p>Hello, <?php echo htmlspecialchars($firstName . ' ' . $lastName); ?> !</p>
         <ul class="nav-links">
-            <li><a href="patientappointments.html">My Appointments</a></li>
+            <li><a href="patientappointments.php">Appointments</a></li>
+            <li><a href="patientappointment_checker.html">My Appointments</a></li>
             <li><a href="patientmedications.html">Medications</a></li>
-            <li><a href="patientmessages.php">Messages</a></li>
-            <li><a href="messages_checker.html">Messages</a></li>
+            <li><a href="medicationreminder_checker.html">My Medications</a></li>
+            <li><a href="patientmessages.php">Send Messages</a></li>
+            <li><a href="patientmessages-checker.html">Messages</a></li>
             <li><a href="patienthealthtips.html">Health Tips</a></li>
+
         </ul>
         
     </nav>
@@ -195,8 +198,3 @@ $lastName = $_SESSION['last_name'];
     <script src="patient.js"></script>
 </body>
 </html>
-
-
-
-
-
