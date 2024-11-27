@@ -124,46 +124,14 @@ $lastName = $_SESSION['last_name'];
             
             <li><a href="clinic-messages.php">Send Messages</a></li>
             <li><a href="messages_checker.html">Messages</a></li>
-            
+            <li><a href="logout.php" class="action-button">Logout</a></li>
         </ul>
         
     </nav>
-
-    <section id="dashboard">
-        <div class="dashboard-summary">
-            <h2>Today's Overview</h2>
-            <div class="summary-cards">
-                <div class="card">
-                    <h3>Appointments</h3>
-                    <p>15 Scheduled</p>
-                </div>
-                <div class="card">
-                    <h3>Checked-In Patients</h3>
-                    <p>8 Checked-In</p>
-                </div>
-                <div class="card">
-                    <h3>Messages</h3>
-                    <p>3 New Messages</p>
-                </div>
-                <div class="card">
-                    <h3>No-Show Rate</h3>
-                    <p>5%</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="appointments" class="section">
+<section id="appointments" class="section">
         <h2>Appointments</h2>
         <div class="appointment-list">
-            <div class="appointment-item">
-                <p><strong>John Doe</strong> – 10:00 AM</p>
-                <button class="action-button">View Details</button>
-            </div>
-            <div class="appointment-item">
-                <p><strong>Jane Smith</strong> – 11:30 AM</p>
-                <button class="action-button">View Details</button>
-            </div>
+        <a href="doctorappointment_checker.html" class="action-button">View Details</a>
             <!-- Add more appointment items as needed -->
         </div>
     </section>
@@ -171,10 +139,7 @@ $lastName = $_SESSION['last_name'];
     <section id="messages" class="section">
         <h2>Messages</h2>
         <div class="message-list">
-            <div class="message-item">
-                <p><strong>Patient:</strong> Can I reschedule my appointment?</p>
-                <button class="action-button">Reply</button>
-            </div>
+        <a href="messages_checker.html" class="action-button">View Details</a>
             <!-- Add more message items as needed -->
         </div>
     </section>

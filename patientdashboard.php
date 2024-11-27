@@ -125,37 +125,17 @@ $lastName = $_SESSION['last_name'];
             <li><a href="patientmessages.php">Send Messages</a></li>
             <li><a href="patientmessages-checker.html">Messages</a></li>
             <li><a href="patienthealthtips.html">Health Tips</a></li>
+            <li><a href="logout.php" class="action-button">Logout</a></li>
 
         </ul>
         
     </nav>
-
-    <section id="dashboard">
-        <div class="dashboard-summary">
-            <h2>Welcome to Your Dashboard</h2>
-            <div class="summary-cards">
-                <div class="card">
-                    <h3>Next Appointment</h3>
-                    <p>Dr. Smith – October 10, 2024, at 10:00 AM</p>
-                </div>
-                <div class="card">
-                    <h3>Today's Medications</h3>
-                    <p>2 Reminders</p>
-                </div>
-                <div class="card">
-                    <h3>New Messages</h3>
-                    <p>1 Unread</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <section id="appointments" class="section">
         <h2>Upcoming Appointments</h2>
         <div class="appointment-list">
             <div class="appointment-item">
-                <p><strong>Check-up with Dr. Lee</strong> – October 15, 2024, at 2:00 PM</p>
-                <button class="action-button">View Details</button>
+            <a href="patientappointment_checker.html" class="action-button">View Details</a>
+                
             </div>
             <!-- More appointments as needed -->
         </div>
@@ -164,12 +144,7 @@ $lastName = $_SESSION['last_name'];
     <section id="medications" class="section">
         <h2>Medication Reminders</h2>
         <div class="medication-list">
-            <div class="medication-item">
-                <p><strong>Medicine:</strong> Amoxicillin <br><strong>Time:</strong> 8:00 AM</p>
-            </div>
-            <div class="medication-item">
-                <p><strong>Medicine:</strong> Ibuprofen <br><strong>Time:</strong> 2:00 PM</p>
-            </div>
+        <a href="medicationreminder_checker.html" class="action-button">View Details</a>
             <!-- More medications as needed -->
         </div>
     </section>
@@ -177,10 +152,7 @@ $lastName = $_SESSION['last_name'];
     <section id="messages" class="section">
         <h2>Messages</h2>
         <div class="message-list">
-            <div class="message-item">
-                <p><strong>Clinic:</strong> Your test results are ready. Please check your email for details.</p>
-                <button class="action-button">View</button>
-            </div>
+        <a href="patientmessages-checker.html" class="action-button">View Details</a>
             <!-- More messages as needed -->
         </div>
     </section>
@@ -188,6 +160,7 @@ $lastName = $_SESSION['last_name'];
     <section id="health-tips" class="section">
         <h2>Health Tips</h2>
         <p>Stay hydrated and maintain a balanced diet to support your immune system.</p>
+        <a href="patienthealthtips.html" class="action-button">View More</a>
         <!-- Additional health tips can be added here -->
     </section>
 
